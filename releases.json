@@ -1,0 +1,15 @@
+{
+  "latestTag": "firmware-v1.0.0",
+  "latestVersion": "1.0.0",
+  "repo": "https://github.com/mauroegp/SmartApp_FW",
+  "codeRepo": "https://github.com/mauroegp/SmartApp",
+  "modules": {
+    "relay-4": { "version": "1.0.0", "file": "relay-4.bin", "tag": "firmware-v1.0.0" },
+    "relay-8": { "version": "1.0.0", "file": "relay-8.bin", "tag": "firmware-v1.0.0" },
+    "relay-16": { "version": "1.0.0", "file": "relay-16.bin", "tag": "firmware-v1.0.0" },
+    "io-4x4": { "version": "1.0.0", "file": "io-4x4.bin", "tag": "firmware-v1.0.0" },
+    "io-8x8": { "version": "1.0.0", "file": "io-8x8.bin", "tag": "firmware-v1.0.0" },
+    "mppt-bridge": { "version": "1.0.0", "file": "mppt-bridge.bin", "tag": "firmware-v1.0.0" },
+    "mppt-io": { "version": "1.0.0", "file": "mppt-io.bin", "tag": "firmware-v1.0.0" }
+  }
+}
