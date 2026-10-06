@@ -20,7 +20,7 @@ Updates für Test-Module ersetzen die Assets auf `firmware-v1.0.0T`. Es gibt kei
 
 | Modultyp | Datei | Hardware |
 |----------|--------|----------|
-| `io-4x4` | `io-4x4.bin` | ESP32-C3 Super Mini |
+| `io-4x4` | `io-4x4.bin` | ESP32 Dev Module |
 | `io-8x8` | `io-8x8.bin` | ESP32 Dev Module |
 | `relay-8` | `relay-8.bin` | ESP32 Dev Module |
 | `heat-8` | `heat-8.bin` | ESP32 Dev Module |
