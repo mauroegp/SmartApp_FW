@@ -2,7 +2,6 @@
 
 Öffentliches **Release-only**-Repository für vorkompilierte SmartApp-ESP-Firmware.
 
-- **Quellcode & PlatformIO-Projekte:** [mauroegp/SmartApp](https://github.com/mauroegp/SmartApp) (`firmware/`)
 - **Dieses Repo:** nur `.bin`-Dateien und Manifeste — keine Firmware-Quellen
 
 ## Releases
