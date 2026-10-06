@@ -2,56 +2,66 @@
 
 Öffentliches **Release-only**-Repository für vorkompilierte SmartApp-ESP-Firmware.
 
-- **Dieses Repo:** nur `.bin`-Dateien und Manifeste — keine Firmware-Quellen
+- **Dieses Repo:** nur `.bin`-Dateien und `firmware-manifest.json` — kein Firmware-Quellcode
+- **Quellcode:** [SmartApp](https://github.com/mauroegp/SmartApp) unter `firmware/`
 
 ## Releases
 
-| Tag | Inhalt |
-|-----|--------|
-| `firmware-v1.0.0` | Erstes Multi-Modul-Release (7 Binaries + `firmware-manifest.json`) |
+Zwei Kanäle. OTA erkennt ein Update am **SHA256** im Manifest. Die eingebettete Build-Kennung (`1.0.0T1`) ist nur Anzeige.
 
-Neue Releases werden mit Tag `firmware-v<semver>` veröffentlicht (z. B. `firmware-v1.0.1`).
+| Tag | Kanal | Version | Inhalt |
+|-----|--------|---------|--------|
+| `firmware-v1.0.0` | stable | `1.0.0` | io-4x4, io-8x8, relay-8, heat-8 |
+| `firmware-v1.0.0T` | testing (**latest**) | `1.0.0T` | alle übrigen Module |
 
-### Modultypen (v1.0.0)
+Updates für Test-Module ersetzen die Assets auf `firmware-v1.0.0T`. Es gibt kein `firmware-v1.0.1`.
+
+### Stable (`firmware-v1.0.0`)
 
 | Modultyp | Datei | Hardware |
-|----------|-------|----------|
-| `relay-4` | `relay-4.bin` | ESP32-C3 Super Mini |
-| `relay-8` | `relay-8.bin` | ESP32 Dev Module |
-| `relay-16` | `relay-16.bin` | ESP32-C3 + 74HC595 |
+|----------|--------|----------|
 | `io-4x4` | `io-4x4.bin` | ESP32-C3 Super Mini |
 | `io-8x8` | `io-8x8.bin` | ESP32 Dev Module |
-| `mppt-bridge` | `mppt-bridge.bin` | ESP32 Dev Module |
-| `mppt-io` | `mppt-io.bin` | ESP32 Dev Module |
+| `relay-8` | `relay-8.bin` | ESP32 Dev Module |
+| `heat-8` | `heat-8.bin` | ESP32 Dev Module |
 
-Weitere Typen (`sensor-esp01`, `homekit-bridge`) folgen in späteren Releases.
+### Testing (`firmware-v1.0.0T`)
+
+| Modultyp | Datei | Hardware | Eingebettet |
+|----------|--------|----------|-------------|
+| `relay-2` | `relay-2.bin` | ESP32 Dev Module | `1.0.0T1` |
+| `relay-4` | `relay-4.bin` | ESP32-C3 Super Mini | `1.0.0T1` |
+| `relay-16` | `relay-16.bin` | ESP32-C3 + 74HC595 | `1.0.0T1` |
+| `io-2x2` | `io-2x2.bin` | ESP32 Dev Module | `1.0.0T1` |
+| `gate-2` | `gate-2.bin` | ESP32 Dev Module | `1.0.0T1` |
+| `room-panel` | `room-panel.bin` | ESP32 + 3,5″ Touch | `1.0.0T1` |
+| `mppt-io` | `mppt-io.bin` | ESP32-C3 Super Mini | `1.0.0T1` |
+| `homekit-bridge` | `homekit-bridge.bin` | ESP32-S3 | `1.0.0T1` |
+| `rs485-bridge` | `rs485-bridge.bin` | ESP32-S3 | `1.0.0T1` |
 
 ## Manifest
 
-Jedes Release enthält **`firmware-manifest.json`** mit Version, SHA256 und Dateinamen pro Modultyp.
+Jedes Release enthält **`firmware-manifest.json`** mit Version, SHA256 und Dateiname pro Modultyp.
 
-Die SmartApp-Cloud/der Server lädt Updates über:
+Die SmartApp-Cloud lädt beide Manifeste und führt sie zusammen. Pro Modul gilt der Eintrag seines Kanals.
 
-- `GITHUB_REPO=mauroegp/SmartApp_FW` bzw. `FIRMWARE_GITHUB_REPO`, oder
-- feste URL: `FIRMWARE_MANIFEST_URL=https://github.com/mauroegp/SmartApp_FW/releases/download/firmware-v1.0.0/firmware-manifest.json`
+- `GITHUB_REPO=mauroegp/SmartApp_FW` bzw. `FIRMWARE_GITHUB_REPO`
+- Testing: `https://github.com/mauroegp/SmartApp_FW/releases/download/firmware-v1.0.0T/firmware-manifest.json`
+- Stable: `https://github.com/mauroegp/SmartApp_FW/releases/download/firmware-v1.0.0/firmware-manifest.json`
 
-Alternativ können Admins `.bin`-Dateien direkt auf dem Server hochladen (Admin → Updates).
+Alternativ können Admins eine `.bin` direkt auf dem Server hochladen (Admin → Updates).
 
-## Release veröffentlichen (Maintainer)
+## Release veröffentlichen
 
-Aus dem SmartApp-Hauptrepo nach Build:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts\upload-firmware-release.ps1 -Version 1.0.1 -Repo mauroegp/SmartApp_FW
-```
-
-Oder manuell:
+Aus dem SmartApp-Hauptrepo, nach dem Build:
 
 ```bash
-gh release create firmware-v1.0.1 firmware-manifest.json *.bin \
-  --repo mauroegp/SmartApp_FW --title "Firmware 1.0.1"
+node scripts/build-firmware-module.mjs <modul>
+node scripts/promote-firmware-module.mjs <modul>
 ```
 
-## License
+Das Modul landet auf dem Tag seines Kanals (`firmware-v1.0.0` oder `firmware-v1.0.0T`).
+
+## Lizenz
 
 Firmware-Binaries werden wie im Hauptprojekt SmartApp bereitgestellt. Quellcode-Lizenz siehe [SmartApp](https://github.com/mauroegp/SmartApp).
